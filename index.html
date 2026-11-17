@@ -1710,11 +1710,14 @@
       });
 
       /* ---------- order numbers ----------
-         Each submitted order gets a sequential number for its receipt.
-         Orders themselves go to the owner via WhatsApp — accounting lives
-         in the separate Full Admin System, not on this public page. */
-      var ordSeq = 1000;
-      function nextOrdNo() { ordSeq++; return "DW-" + ordSeq; }
+         Every order gets a UNIQUE number: DW- + time digits + random.
+         A plain counter cannot work on a static page — it reset to 1001
+         on every fresh visit, so every customer got DW-1001. */
+      function nextOrdNo() {
+        var t = Date.now().toString();
+        var r = Math.floor(Math.random() * 90 + 10);
+        return "DW-" + t.slice(-6) + r;
+      }
 
       /* ---------- light / dark toggle ----------
          Default is ALWAYS light (white background) — the page ignores the
